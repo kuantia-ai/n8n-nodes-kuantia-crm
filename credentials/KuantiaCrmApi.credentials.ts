@@ -42,7 +42,7 @@ export class KuantiaCrmApi implements ICredentialType {
         properties: {
             headers: {
                 'Authorization': '={{"Token " + $credentials.botToken}}',
-                'X-ACTIVE-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
+                'X-CURRENT-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
             },
         },
     };
@@ -54,7 +54,7 @@ export class KuantiaCrmApi implements ICredentialType {
             method: 'POST',
             headers: {
                 'Authorization': '={{"Token " + $credentials.botToken}}',
-                'X-ACTIVE-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
+                'X-CURRENT-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
             },
         },
     };
