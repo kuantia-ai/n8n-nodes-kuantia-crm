@@ -1,1 +1,753 @@
-{"openapi":"3.0.0","paths":{"/api/accounts":{"get":{"operationId":"AccountController_findAll","parameters":[],"responses":{"200":{"description":""}},"tags":["Account"]}},"/api/users":{"get":{"description":"Retrieve a list of all users in the system","operationId":"UserController_findAll","parameters":[],"responses":{"200":{"description":"Successfully retrieved users list"}},"summary":"Get all users","tags":["User Management"]}},"/api/users/{id}":{"get":{"description":"Retrieve a specific user by their unique identifier","operationId":"UserController_findOne","parameters":[{"name":"id","required":true,"in":"path","description":"Unique user identifier","schema":{"example":"uuid-123e4567-e89b-12d3-a456-426614174000","type":"string"}},{"name":"page","required":false,"in":"query","description":"Page number (1-based)","schema":{"minimum":1,"default":1,"example":1,"type":"number"}},{"name":"limit","required":false,"in":"query","description":"Number of items per page","schema":{"minimum":1,"maximum":100,"default":10,"example":10,"type":"number"}},{"name":"relations","required":false,"in":"query","description":"Comma-separated list of relations to include","schema":{"example":"company,userAccountAccess","type":"array","items":{"type":"string"}}},{"name":"select","required":false,"in":"query","description":"Fields to select in the response","schema":{"example":["id","email","firstName","lastName"],"type":"array","items":{"type":"string"}}},{"name":"sort","required":false,"in":"query","description":"Sort configuration. Can be a single field or multiple fields.","schema":{"type":"array","items":{"$ref":"#/components/schemas/SortField"}}},{"name":"filters","required":false,"in":"query","description":"Filter conditions as JSON object","schema":{"$ref":"#/components/schemas/Object"}}],"responses":{"200":{"description":"Successfully retrieved user"},"404":{"description":"User not found"}},"summary":"Get user by ID","tags":["User Management"]}},"/api/users/onboarding":{"post":{"description":"Complete the onboarding process by setting up company details and creating the first account","operationId":"UserController_onboarding","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/OnboardingRequestDto"}}}},"responses":{"201":{"description":"Onboarding completed successfully","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"number","example":201},"data":{"type":"object","properties":{"company":{"type":"object","properties":{"id":{"type":"string","example":"uuid-123e4567-e89b-12d3-a456-426614174000"},"name":{"type":"string","example":"Acme Corporation"},"industry":{"type":"string","example":"TECHNOLOGY"},"employeeCount":{"type":"string","example":"SMALL"}}},"account":{"type":"object","properties":{"id":{"type":"string","example":"uuid-123e4567-e89b-12d3-a456-426614174000"},"name":{"type":"string","example":"Customer Support"},"createdAt":{"type":"string","format":"date-time"}}}}}}}}}},"400":{"description":"Validation error or bad request"}},"summary":"Complete user onboarding","tags":["User Management"]}},"/api/auth/register":{"post":{"operationId":"AuthController_register","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateUserDto"}}}},"responses":{"201":{"description":""}},"tags":["Auth"]}},"/api/auth/login":{"post":{"operationId":"AuthController_login","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignInDto"}}}},"responses":{"201":{"description":""}},"tags":["Auth"]}},"/api/health":{"get":{"operationId":"HealthController_getHealth","parameters":[],"responses":{"200":{"description":""}},"tags":["Health"]}},"/api/inbox/test-connection":{"post":{"description":"Validates the configuration and tests connectivity for a communication channel (WhatsApp, Telegram, etc.)","operationId":"InboxController_testConnection","parameters":[],"requestBody":{"required":true,"description":"Inbox configuration to test","content":{"application/json":{"schema":{"$ref":"#/components/schemas/InboxSchemaDto"},"examples":{"whatsapp":{"summary":"WhatsApp Channel","value":{"inboxName":"Customer Support WhatsApp","channel":"whatsapp","payload":{"phoneNumber":"+1234567890","phoneNumberId":"123456789012345","businessAccountId":"123456789012345","apiKey":"your-whatsapp-api-key"}}},"telegram":{"summary":"Telegram Channel","value":{"inboxName":"Support Bot","channel":"telegram","payload":{"botToken":"123456789:ABCdefGHIjklMNOpqrSTUvwxyz"}}}}}}},"responses":{"200":{"description":"Connection test successful","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"number","example":200},"data":{"type":"object","properties":{"connectionStatus":{"type":"string","example":"success"},"message":{"type":"string","example":"Connection established successfully"}}}}}}}},"400":{"description":"Validation error or connection failed","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"number","example":400},"error":{"type":"object","properties":{"errorCode":{"type":"string","example":"VALIDATION_ERROR"},"message":{"type":"string","example":"Invalid configuration provided"},"invalidFields":{"type":"array","items":{"type":"string"},"example":["payload.botToken"]}}}}}}}}},"summary":"Test inbox connection","tags":["Inbox Management"]}},"/api/inbox":{"post":{"operationId":"InboxController_createInbox","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/InboxSchemaDto"}}}},"responses":{"201":{"description":""}},"tags":["Inbox Management"]},"get":{"operationId":"InboxController_getInboxes","parameters":[],"responses":{"200":{"description":""}},"tags":["Inbox Management"]}},"/api/inbox/{id}":{"get":{"operationId":"InboxController_getInbox","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Inbox Management"]},"delete":{"operationId":"InboxController_deleteInbox","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Inbox Management"]},"put":{"operationId":"InboxController_updateInbox","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/InboxSchemaDto"}}}},"responses":{"200":{"description":""}},"tags":["Inbox Management"]}},"/api/inbox/{id}/webhook":{"get":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_get","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]},"post":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_post","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]},"put":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_put","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]},"delete":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_delete","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]},"patch":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_patch","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]},"options":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_options","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]},"head":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_head","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]},"search":{"description":"Handles incoming webhook messages from communication providers (WhatsApp, Telegram, etc.) for all HTTP methods","operationId":"InboxController_processInboxWebhook_search","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Webhook processed successfully"}},"summary":"Process webhook messages","tags":["Inbox Management"]}},"/api/conversations":{"get":{"operationId":"ConversationController_findAll","parameters":[{"name":"page","required":false,"in":"query","description":"Page number (1-based)","schema":{"minimum":1,"default":1,"example":1,"type":"number"}},{"name":"limit","required":false,"in":"query","description":"Number of items per page","schema":{"minimum":1,"maximum":100,"default":10,"example":10,"type":"number"}},{"name":"relations","required":false,"in":"query","description":"Relations to include in the response. Use dot notation for nested relations.","schema":{"example":["company","company.accounts"],"type":"array","items":{"type":"string"}}},{"name":"select","required":false,"in":"query","description":"Fields to select in the response","schema":{"example":["id","email","firstName","lastName"],"type":"array","items":{"type":"string"}}},{"name":"sort","required":false,"in":"query","description":"Sort configuration. Can be a single field or multiple fields.","schema":{"type":"array","items":{"$ref":"#/components/schemas/SortField"}}},{"name":"filters","required":false,"in":"query","description":"Filter conditions as JSON object","schema":{"$ref":"#/components/schemas/Object"}}],"responses":{"200":{"description":""}},"tags":["Conversation"]}},"/api/conversations/{id}":{"get":{"operationId":"ConversationController_findOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Conversation"]}},"/api/conversation-messages":{"get":{"operationId":"ConversationMessageController_findAll","parameters":[{"name":"page","required":false,"in":"query","description":"Page number (1-based)","schema":{"minimum":1,"default":1,"example":1,"type":"number"}},{"name":"limit","required":false,"in":"query","description":"Number of items per page","schema":{"minimum":1,"maximum":100,"default":10,"example":10,"type":"number"}},{"name":"relations","required":false,"in":"query","description":"Relations to include in the response. Use dot notation for nested relations.","schema":{"example":["company","company.accounts"],"type":"array","items":{"type":"string"}}},{"name":"select","required":false,"in":"query","description":"Fields to select in the response","schema":{"example":["id","email","firstName","lastName"],"type":"array","items":{"type":"string"}}},{"name":"sort","required":false,"in":"query","description":"Sort configuration. Can be a single field or multiple fields.","schema":{"type":"array","items":{"$ref":"#/components/schemas/SortField"}}},{"name":"filters","required":false,"in":"query","description":"Filter conditions as JSON object","schema":{"$ref":"#/components/schemas/Object"}}],"responses":{"200":{"description":""}},"tags":["ConversationMessage"]},"post":{"operationId":"ConversationMessageController_create","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateConversationMessageDto"}}}},"responses":{"201":{"description":""}},"tags":["ConversationMessage"]}},"/api/bots":{"get":{"operationId":"BotController_findAll","parameters":[{"name":"page","required":false,"in":"query","description":"Page number (1-based)","schema":{"minimum":1,"default":1,"example":1,"type":"number"}},{"name":"limit","required":false,"in":"query","description":"Number of items per page","schema":{"minimum":1,"maximum":100,"default":10,"example":10,"type":"number"}},{"name":"relations","required":false,"in":"query","description":"Relations to include in the response. Use dot notation for nested relations.","schema":{"example":["company","company.accounts"],"type":"array","items":{"type":"string"}}},{"name":"select","required":false,"in":"query","description":"Fields to select in the response","schema":{"example":["id","email","firstName","lastName"],"type":"array","items":{"type":"string"}}},{"name":"sort","required":false,"in":"query","description":"Sort configuration. Can be a single field or multiple fields.","schema":{"type":"array","items":{"$ref":"#/components/schemas/SortField"}}},{"name":"filters","required":false,"in":"query","description":"Filter conditions as JSON object","schema":{"$ref":"#/components/schemas/Object"}}],"responses":{"200":{"description":""}},"tags":["Bot"]},"post":{"operationId":"BotController_create","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateOrUpdateBotDto"}}}},"responses":{"201":{"description":""}},"tags":["Bot"]}},"/api/bots/{id}":{"get":{"operationId":"BotController_findOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Bot"]},"put":{"operationId":"BotController_update","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateOrUpdateBotDto"}}}},"responses":{"200":{"description":""}},"tags":["Bot"]},"delete":{"operationId":"BotController_delete","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Bot"]}},"/api/bots/{id}/token":{"get":{"operationId":"BotController_getBotToken","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Bot"]}},"/api/bots/{id}/token/regenerate":{"post":{"operationId":"BotController_regenerateBotToken","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"201":{"description":""}},"tags":["Bot"]}}},"info":{"title":"Kuantia CRM API","description":"Kuantia CRM API Documentation","version":"1.0","contact":{}},"tags":[],"servers":[],"components":{"schemas":{"SortField":{"type":"object","properties":{"field":{"type":"string","description":"Field name to sort by","example":"createdAt"},"order":{"type":"string","description":"Sort order","enum":["ASC","DESC"],"example":"DESC"}}},"Object":{"type":"object","properties":{}},"OnboardingRequestDto":{"type":"object","properties":{"companyName":{"type":"string","description":"Name of the company","example":"Acme Corporation","minLength":1},"companyEmployeeCount":{"type":"string","description":"Number of employees in the company","enum":["1-10","11-50","51-100","101-1000","1001-10000"],"example":"1-10"},"companyIndustry":{"type":"string","description":"Industry sector of the company","enum":["IT","FINANCE","HEALTHCARE","EDUCATION","OTHER"],"example":"IT"},"firstAccountName":{"type":"string","description":"Name for the first account to be created","example":"Customer Support","minLength":1}},"required":["companyName","companyEmployeeCount","companyIndustry","firstAccountName"]},"CreateUserDto":{"type":"object","properties":{}},"SignInDto":{"type":"object","properties":{}},"InboxSchemaDto":{"type":"object","properties":{"name":{"type":"string","description":"A unique name to identify your inbox","example":"Customer Support WhatsApp","minLength":1},"provider":{"type":"string","description":"The communication channel provider","enum":["whatsapp","telegram"],"example":"whatsapp"},"providerConfig":{"type":"object","description":"Provider-specific configuration payload. Structure varies by channel type.","additionalProperties":true,"example":{"phoneNumber":"+1234567890","phoneNumberId":"123456789012345","businessAccountId":"123456789012345","apiKey":"your-whatsapp-api-key"}},"botId":{"type":"string","description":"The bot ID to connect to the inbox","example":"123456789012345"}},"required":["name","provider","providerConfig","botId"]},"CreateConversationMessageDto":{"type":"object","properties":{}},"CreateOrUpdateBotDto":{"type":"object","properties":{}}}}}
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/accounts": {
+      "get": {
+        "operationId": "AccountController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A list of accounts associated with the user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAccountsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List all accounts for the current user",
+        "tags": ["Accounts"]
+      }
+    },
+    "/api/users": {
+      "get": {
+        "description": "Retrieve a list of all users in the system",
+        "operationId": "UserController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all users",
+        "tags": ["User Management"]
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "description": "Retrieve a specific user by their unique identifier",
+        "operationId": "UserController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (1-based)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "relations",
+            "required": false,
+            "in": "query",
+            "description": "Relations to include in the response. Use dot notation for nested relations.",
+            "schema": {
+              "example": ["company", "company.accounts"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "select",
+            "required": false,
+            "in": "query",
+            "description": "Fields to select in the response",
+            "schema": {
+              "example": ["id", "email", "firstName", "lastName"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort configuration. Can be a single field or multiple fields.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortField"
+              }
+            }
+          },
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Filter conditions as JSON object",
+            "schema": {
+              "$ref": "#/components/schemas/Object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get user by ID",
+        "tags": ["User Management"]
+      }
+    },
+    "/api/inbox/{id}": {
+      "get": {
+        "description": "Gets an inbox by id",
+        "operationId": "InboxController_getInbox",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get inbox",
+        "tags": ["Inbox Management"]
+      },
+      "delete": {
+        "description": "Deletes an inbox",
+        "operationId": "InboxController_deleteInbox",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Delete inbox",
+        "tags": ["Inbox Management"]
+      }
+    },
+    "/api/inbox": {
+      "get": {
+        "description": "Gets all inboxes",
+        "operationId": "InboxController_getInboxes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get inboxes",
+        "tags": ["Inbox Management"]
+      }
+    },
+    "/api/conversations": {
+      "get": {
+        "operationId": "ConversationController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (1-based)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "relations",
+            "required": false,
+            "in": "query",
+            "description": "Relations to include in the response. Use dot notation for nested relations.",
+            "schema": {
+              "example": ["company", "company.accounts"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "select",
+            "required": false,
+            "in": "query",
+            "description": "Fields to select in the response",
+            "schema": {
+              "example": ["id", "email", "firstName", "lastName"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort configuration. Can be a single field or multiple fields.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortField"
+              }
+            }
+          },
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Filter conditions as JSON object",
+            "schema": {
+              "$ref": "#/components/schemas/Object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all conversations",
+        "tags": ["Conversations"]
+      }
+    },
+    "/api/conversations/{id}": {
+      "get": {
+        "operationId": "ConversationController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get a conversation by ID",
+        "tags": ["Conversations"]
+      }
+    },
+    "/api/conversation-messages": {
+      "get": {
+        "operationId": "ConversationMessageController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (1-based)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "relations",
+            "required": false,
+            "in": "query",
+            "description": "Relations to include in the response. Use dot notation for nested relations.",
+            "schema": {
+              "example": ["company", "company.accounts"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "select",
+            "required": false,
+            "in": "query",
+            "description": "Fields to select in the response",
+            "schema": {
+              "example": ["id", "email", "firstName", "lastName"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort configuration. Can be a single field or multiple fields.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortField"
+              }
+            }
+          },
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Filter conditions as JSON object",
+            "schema": {
+              "$ref": "#/components/schemas/Object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all conversation messages",
+        "tags": ["Conversation Messages"]
+      },
+      "post": {
+        "description": "Sends a message to a conversation using the channel processor",
+        "operationId": "ConversationMessageController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConversationMessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Send a message to a conversation",
+        "tags": ["Conversation Messages"]
+      }
+    },
+    "/api/bots": {
+      "get": {
+        "operationId": "BotController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (1-based)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "relations",
+            "required": false,
+            "in": "query",
+            "description": "Relations to include in the response. Use dot notation for nested relations.",
+            "schema": {
+              "example": ["company", "company.accounts"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "select",
+            "required": false,
+            "in": "query",
+            "description": "Fields to select in the response",
+            "schema": {
+              "example": ["id", "email", "firstName", "lastName"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort configuration. Can be a single field or multiple fields.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortField"
+              }
+            }
+          },
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Filter conditions as JSON object",
+            "schema": {
+              "$ref": "#/components/schemas/Object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all bots for the active account",
+        "tags": ["Bot"]
+      },
+      "post": {
+        "operationId": "BotController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateBotDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Create a new bot",
+        "tags": ["Bot"]
+      }
+    },
+    "/api/bots/{id}": {
+      "get": {
+        "operationId": "BotController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get a bot by ID",
+        "tags": ["Bot"]
+      },
+      "put": {
+        "operationId": "BotController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateBotDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Update a bot",
+        "tags": ["Bot"]
+      },
+      "delete": {
+        "operationId": "BotController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Delete a bot",
+        "tags": ["Bot"]
+      }
+    }
+  },
+  "info": {
+    "title": "Kuantia CRM API",
+    "description": "Kuantia CRM API Documentation",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "ListAccountResponseAccountElement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the account",
+            "example": "uuid-123e4567-e89b-12d3-a456-426614174000"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the account",
+            "example": "Acme Corp Customer Support"
+          },
+          "role": {
+            "type": "string",
+            "description": "User role within this account",
+            "enum": ["admin", "user"],
+            "example": "admin"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Account creation timestamp",
+            "example": "2024-01-15T10:30:00Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update timestamp",
+            "example": "2024-01-20T14:45:00Z"
+          }
+        },
+        "required": ["id", "name", "role", "createdAt", "updatedAt"]
+      },
+      "ListAccountsResponseDto": {
+        "type": "object",
+        "properties": {
+          "accounts": {
+            "description": "List of accounts accessible to the user",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListAccountResponseAccountElement"
+            }
+          }
+        },
+        "required": ["accounts"]
+      },
+      "SortField": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Field name to sort by",
+            "example": "createdAt"
+          },
+          "order": {
+            "type": "string",
+            "description": "Sort order",
+            "enum": ["ASC", "DESC"],
+            "example": "DESC"
+          }
+        }
+      },
+      "Object": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateConversationMessageDto": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "description": "The ID of the conversation to send the message to",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "message": {
+            "type": "string",
+            "description": "The message to send",
+            "example": "Hello, how are you?"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the message",
+            "example": "USER"
+          },
+          "messageType": {
+            "type": "string",
+            "description": "The type of the message",
+            "example": "TEXT"
+          },
+          "content": {
+            "type": "object",
+            "description": "An optional object containing additional metada fields for the message (e.g. text, image, audio)",
+            "additionalProperties": true,
+            "example": {
+              "text": "Hello, how are you?",
+              "image": "https://example.com/image.png",
+              "audio": "https://example.com/audio.mp3"
+            }
+          }
+        },
+        "required": [
+          "conversationId",
+          "message",
+          "type",
+          "messageType",
+          "content"
+        ]
+      },
+      "CreateOrUpdateBotDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the bot",
+            "example": "My Bot"
+          },
+          "profilePicturePath": {
+            "type": "string",
+            "description": "The profile picture path of the bot",
+            "example": "https://example.com/profile-picture.png"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the bot",
+            "example": "This is my bot"
+          },
+          "webhookUrl": {
+            "type": "string",
+            "description": "The webhook URL of the bot",
+            "example": "https://example.com/webhook"
+          },
+          "inboxesIds": {
+            "description": "The inboxes IDs of the bot",
+            "example": ["123e4567-e89b-12d3-a456-426614174000"],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "profilePicturePath",
+          "description",
+          "webhookUrl",
+          "inboxesIds"
+        ]
+      }
+    }
+  }
+}
