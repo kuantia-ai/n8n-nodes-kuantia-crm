@@ -671,33 +671,28 @@
         "properties": {
           "conversationId": {
             "type": "string",
-            "description": "The ID of the conversation to send the message to",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
+            "description": "The ID of the conversation to send the message to"
           },
           "message": {
             "type": "string",
-            "description": "The message to send",
-            "example": "Hello, how are you?"
+            "description": "The message to send"
           },
           "type": {
             "type": "string",
             "description": "The type of the message",
-            "example": "USER"
+            "enum": ["USER", "BOT", "NOTE"]
           },
           "messageType": {
             "type": "string",
             "description": "The type of the message",
-            "example": "TEXT"
+            "example": "TEXT",
+            "enum": ["TEXT", "IMAGE", "AUDIO", "VIDEO", "FILE"]
           },
           "content": {
             "type": "object",
             "description": "An optional object containing additional metada fields for the message (e.g. text, image, audio)",
             "additionalProperties": true,
-            "example": {
-              "text": "Hello, how are you?",
-              "image": "https://example.com/image.png",
-              "audio": "https://example.com/audio.mp3"
-            }
+            "example": {}
           }
         },
         "required": [
