@@ -40,7 +40,7 @@ export class KuantiaCrmApi implements ICredentialType {
         type: 'generic',
         properties: {
             headers: {
-                'Authorization': 'Token {{$credentials.botToken}}',
+                'Authorization': 'Token ={{$credentials.botToken}}',
                 'X-ACTIVE-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
             },
         },
