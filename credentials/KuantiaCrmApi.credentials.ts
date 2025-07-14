@@ -50,7 +50,12 @@ export class KuantiaCrmApi implements ICredentialType {
     test: ICredentialTestRequest = {
         request: {
             baseURL: '={{$credentials.url}}',
-            url: '/api',
+            url: '/api/auth/test-bot-auth-token',
+            method: 'POST',
+            headers: {
+                'Authorization': '={{"Token " + $credentials.botToken}}',
+                'X-ACTIVE-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
+            },
         },
     };
 }
