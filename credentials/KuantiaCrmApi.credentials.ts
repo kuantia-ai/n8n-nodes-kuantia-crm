@@ -31,6 +31,7 @@ export class KuantiaCrmApi implements ICredentialType {
             name: 'crmAccountId',
             type: 'string',
             placeholder: "Paste your CRM account id here",
+            description: "This should be a UUID (e.g., 123e4567-e89b-12d3-a456-426614174000)",
             default: '',
             required: true,
         },
@@ -40,7 +41,7 @@ export class KuantiaCrmApi implements ICredentialType {
         type: 'generic',
         properties: {
             headers: {
-                'Authorization': 'Token ={{$credentials.botToken}}',
+                'Authorization': '={{"Token " + $credentials.botToken}}',
                 'X-ACTIVE-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
             },
         },
