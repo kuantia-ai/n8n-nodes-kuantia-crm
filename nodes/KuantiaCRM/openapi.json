@@ -17,11 +17,7 @@
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
+        "security": [{ "bearer": [] }],
         "summary": "List all accounts for the current user",
         "tags": ["Accounts"]
       }
@@ -31,11 +27,7 @@
         "description": "Retrieve a list of all users in the system",
         "operationId": "UserController_findAll",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all users",
         "tags": ["User Management"]
       }
@@ -49,9 +41,7 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           },
           {
             "name": "page",
@@ -86,9 +76,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -99,9 +87,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -111,9 +97,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -121,16 +105,10 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get user by ID",
         "tags": ["User Management"]
       }
@@ -144,16 +122,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get inbox",
         "tags": ["Inbox Management"]
       },
@@ -165,16 +137,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Delete inbox",
         "tags": ["Inbox Management"]
       }
@@ -184,11 +150,7 @@
         "description": "Gets all inboxes",
         "operationId": "InboxController_getInboxes",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get inboxes",
         "tags": ["Inbox Management"]
       }
@@ -230,9 +192,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -243,9 +203,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -255,9 +213,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -265,16 +221,10 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all conversations",
         "tags": ["Conversations"]
       }
@@ -287,17 +237,33 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
+        "responses": { "200": { "description": "" } },
+        "summary": "Get a conversation by ID",
+        "tags": ["Conversations"]
+      },
+      "patch": {
+        "operationId": "ConversationController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateConversationDto" }
+            }
           }
         },
-        "summary": "Get a conversation by ID",
+        "responses": { "200": { "description": "" } },
+        "summary": "Update a conversation",
         "tags": ["Conversations"]
       }
     },
@@ -338,9 +304,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -351,9 +315,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -363,9 +325,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -373,16 +333,10 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all conversation messages",
         "tags": ["Conversation Messages"]
       },
@@ -400,11 +354,7 @@
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
+        "responses": { "201": { "description": "" } },
         "summary": "Send a message to a conversation",
         "tags": ["Conversation Messages"]
       }
@@ -446,9 +396,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -459,9 +407,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -471,9 +417,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -481,16 +425,10 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all bots for the active account",
         "tags": ["Bot"]
       },
@@ -501,17 +439,11 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrUpdateBotDto"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateOrUpdateBotDto" }
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
+        "responses": { "201": { "description": "" } },
         "summary": "Create a new bot",
         "tags": ["Bot"]
       }
@@ -524,16 +456,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get a bot by ID",
         "tags": ["Bot"]
       },
@@ -544,26 +470,18 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrUpdateBotDto"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateOrUpdateBotDto" }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Update a bot",
         "tags": ["Bot"]
       },
@@ -574,16 +492,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Delete a bot",
         "tags": ["Bot"]
       }
@@ -662,9 +574,31 @@
           }
         }
       },
-      "Object": {
+      "Object": { "type": "object", "properties": {} },
+      "UpdateConversationDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "disableBotCall": {
+            "type": "boolean",
+            "description": "Whether to disable bot calls for this conversation",
+            "example": true
+          },
+          "customFields": {
+            "type": "object",
+            "description": "Custom fields for the conversation",
+            "example": {
+              "priority": "high",
+              "deal_stage": "qualified",
+              "deal_value": 50000,
+              "tags": ["enterprise", "hot_lead"]
+            }
+          },
+          "lastMessageId": {
+            "type": "string",
+            "description": "ID of the last message in the conversation",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        }
       },
       "CreateConversationMessageDto": {
         "type": "object",
@@ -673,10 +607,7 @@
             "type": "string",
             "description": "The ID of the conversation to send the message to"
           },
-          "message": {
-            "type": "string",
-            "description": "The message to send"
-          },
+          "message": { "type": "string", "description": "The message to send" },
           "type": {
             "type": "string",
             "description": "The type of the message",
@@ -730,9 +661,7 @@
             "description": "The inboxes IDs of the bot",
             "example": ["123e4567-e89b-12d3-a456-426614174000"],
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           }
         },
         "required": [
