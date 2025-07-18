@@ -25,16 +25,7 @@ export class KuantiaCrmApi implements ICredentialType {
             default: '',
             required: true,
             typeOptions: {password: true},
-        },
-        {
-            displayName: 'CRM Account Id',
-            name: 'crmAccountId',
-            type: 'string',
-            placeholder: "Paste your CRM account id here",
-            description: "This should be a UUID (e.g., 123e4567-e89b-12d3-a456-426614174000)",
-            default: '',
-            required: true,
-        },
+        }
     ];
 
     authenticate: IAuthenticateGeneric = {
@@ -42,7 +33,6 @@ export class KuantiaCrmApi implements ICredentialType {
         properties: {
             headers: {
                 'Authorization': '={{"Token " + $credentials.botToken}}',
-                'X-CURRENT-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
             },
         },
     };
@@ -53,8 +43,7 @@ export class KuantiaCrmApi implements ICredentialType {
             url: '/api/auth/test-bot-auth-token',
             method: 'POST',
             headers: {
-                'Authorization': '={{"Token " + $credentials.botToken}}',
-                'X-CURRENT-ACCOUNT-ID': '={{$credentials.crmAccountId}}',
+                'Authorization': '={{"Token " + $credentials.botToken}}'
             },
         },
     };
