@@ -1,6 +1,6 @@
 {
   "name": "@kuantia-ai/n8n-nodes-kuantia-crm",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "n8n node to connect with Kuantia CRM",
   "keywords": [
     "n8n-community-node-package"
