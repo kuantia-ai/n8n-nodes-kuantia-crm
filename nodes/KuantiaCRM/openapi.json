@@ -1,6 +1,22 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/api/sse": {
+      "get": {
+        "operationId": "SseController_sse",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Sse"]
+      }
+    },
+    "/api/messages": {
+      "post": {
+        "operationId": "SseController_messages",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["Sse"]
+      }
+    },
     "/api/accounts": {
       "get": {
         "operationId": "AccountController_findAll",
@@ -17,11 +33,7 @@
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
+        "security": [{ "bearer": [] }],
         "summary": "List all accounts for the current user",
         "tags": ["Accounts"]
       }
@@ -31,11 +43,7 @@
         "description": "Retrieve a list of all users in the system",
         "operationId": "UserController_findAll",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all users",
         "tags": ["User Management"]
       }
@@ -49,9 +57,7 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           },
           {
             "name": "page",
@@ -86,9 +92,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -99,9 +103,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -111,9 +113,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -121,16 +121,10 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get user by ID",
         "tags": ["User Management"]
       }
@@ -144,16 +138,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get inbox",
         "tags": ["Inbox Management"]
       },
@@ -165,16 +153,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Delete inbox",
         "tags": ["Inbox Management"]
       }
@@ -184,11 +166,7 @@
         "description": "Gets all inboxes",
         "operationId": "InboxController_getInboxes",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get inboxes",
         "tags": ["Inbox Management"]
       }
@@ -230,9 +208,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -243,9 +219,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -255,9 +229,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -265,17 +237,59 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
+          },
+          {
+            "name": "customFieldFilters",
+            "required": false,
+            "in": "query",
+            "description": "Filter by custom field values using JSON path queries",
+            "schema": { "$ref": "#/components/schemas/Object" }
+          },
+          {
+            "name": "customFieldSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text within custom field values",
+            "schema": { "example": "urgent task", "type": "string" }
+          },
+          {
+            "name": "customFieldSort",
+            "required": false,
+            "in": "query",
+            "description": "Sort by custom field (use customFields.fieldName format)",
+            "schema": { "example": "customFields.priority", "type": "string" }
+          },
+          {
+            "name": "customFieldGroupBy",
+            "required": false,
+            "in": "query",
+            "description": "Group by custom field (use customFields.fieldName format)",
+            "schema": { "example": "customFields.status", "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
+        "responses": { "200": { "description": "" } },
+        "summary": "Get all conversations with support for custom field filtering",
+        "tags": ["Conversations"]
+      }
+    },
+    "/api/conversations/search": {
+      "post": {
+        "description": "Use this endpoint for complex custom field queries instead of GET with query parameters. Supports nested JSON paths and includes unread message counts.",
+        "operationId": "ConversationController_search",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFieldQueryRequest"
+              }
+            }
           }
         },
-        "summary": "Get all conversations",
+        "responses": { "200": { "description": "" } },
+        "summary": "Search conversations with custom field filters (POST for complex queries)",
         "tags": ["Conversations"]
       }
     },
@@ -287,16 +301,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get a conversation by ID",
         "tags": ["Conversations"]
       },
@@ -307,26 +315,18 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateConversationDto"
-              }
+              "schema": { "$ref": "#/components/schemas/UpdateConversationDto" }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Update a conversation",
         "tags": ["Conversations"]
       }
@@ -368,9 +368,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -381,9 +379,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -393,9 +389,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -403,16 +397,10 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all conversation messages",
         "tags": ["Conversation Messages"]
       },
@@ -430,11 +418,7 @@
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
+        "responses": { "201": { "description": "" } },
         "summary": "Send a message to a conversation",
         "tags": ["Conversation Messages"]
       }
@@ -476,9 +460,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -489,9 +471,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -501,9 +481,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -511,16 +489,10 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all bots for the active account",
         "tags": ["Bot"]
       },
@@ -531,17 +503,11 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrUpdateBotDto"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateOrUpdateBotDto" }
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
+        "responses": { "201": { "description": "" } },
         "summary": "Create a new bot",
         "tags": ["Bot"]
       }
@@ -554,16 +520,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get a bot by ID",
         "tags": ["Bot"]
       },
@@ -574,26 +534,18 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrUpdateBotDto"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateOrUpdateBotDto" }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Update a bot",
         "tags": ["Bot"]
       },
@@ -604,16 +556,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Delete a bot",
         "tags": ["Bot"]
       }
@@ -626,16 +572,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get a contact by ID",
         "tags": ["Contacts"]
       },
@@ -646,9 +586,7 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
@@ -661,11 +599,7 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Update a contact",
         "tags": ["Contacts"]
       },
@@ -676,16 +610,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Delete a contact and its conversations",
         "tags": ["Contacts"]
       }
@@ -727,9 +655,7 @@
             "schema": {
               "example": ["company", "company.accounts"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -740,9 +666,7 @@
             "schema": {
               "example": ["id", "email", "firstName", "lastName"],
               "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "items": { "type": "string" }
             }
           },
           {
@@ -752,9 +676,7 @@
             "description": "Sort configuration. Can be a single field or multiple fields.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortField"
-              }
+              "items": { "$ref": "#/components/schemas/SortField" }
             }
           },
           {
@@ -762,17 +684,39 @@
             "required": false,
             "in": "query",
             "description": "Filter conditions as JSON object",
-            "schema": {
-              "$ref": "#/components/schemas/Object"
-            }
+            "schema": { "$ref": "#/components/schemas/Object" }
+          },
+          {
+            "name": "customFieldFilters",
+            "required": false,
+            "in": "query",
+            "description": "Filter by custom field values using JSON path queries",
+            "schema": { "$ref": "#/components/schemas/Object" }
+          },
+          {
+            "name": "customFieldSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text within custom field values",
+            "schema": { "example": "urgent task", "type": "string" }
+          },
+          {
+            "name": "customFieldSort",
+            "required": false,
+            "in": "query",
+            "description": "Sort by custom field (use customFields.fieldName format)",
+            "schema": { "example": "customFields.priority", "type": "string" }
+          },
+          {
+            "name": "customFieldGroupBy",
+            "required": false,
+            "in": "query",
+            "description": "Group by custom field (use customFields.fieldName format)",
+            "schema": { "example": "customFields.status", "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "Get all contacts",
+        "responses": { "200": { "description": "" } },
+        "summary": "Get all contacts with support for custom field filtering",
         "tags": ["Contacts"]
       },
       "post": {
@@ -788,12 +732,28 @@
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": ""
+        "responses": { "201": { "description": "" } },
+        "summary": "Create a new contact",
+        "tags": ["Contacts"]
+      }
+    },
+    "/api/contacts/search": {
+      "post": {
+        "description": "Use this endpoint for complex custom field queries instead of GET with query parameters. Supports nested JSON paths like \"customFields.contactData.lastContactDateTime\".",
+        "operationId": "ContactController_search",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFieldQueryRequest"
+              }
+            }
           }
         },
-        "summary": "Create a new contact",
+        "responses": { "200": { "description": "" } },
+        "summary": "Search contacts with custom field filters (POST for complex queries)",
         "tags": ["Contacts"]
       }
     },
@@ -805,27 +765,17 @@
             "name": "includeHidden",
             "required": true,
             "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
+            "schema": { "type": "boolean" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get all custom field definitions for account",
         "tags": ["Custom Field Definitions"]
       },
       "post": {
         "operationId": "CustomFieldDefinitionController_create",
         "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
+        "responses": { "201": { "description": "" } },
         "summary": "Create a new custom field definition",
         "tags": ["Custom Field Definitions"]
       }
@@ -838,16 +788,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get a custom field definition by ID",
         "tags": ["Custom Field Definitions"]
       },
@@ -858,16 +802,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Update a custom field definition",
         "tags": ["Custom Field Definitions"]
       },
@@ -878,16 +816,10 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Delete a custom field definition",
         "tags": ["Custom Field Definitions"]
       }
@@ -896,11 +828,7 @@
       "get": {
         "operationId": "CustomFieldDefinitionController_findByScope",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
+        "responses": { "200": { "description": "" } },
         "summary": "Get custom field definitions by scope",
         "tags": ["Custom Field Definitions"]
       }
@@ -942,10 +870,7 @@
                   "metadata": {
                     "type": "object",
                     "description": "Additional metadata for the document",
-                    "example": {
-                      "version": "2.1",
-                      "category": "product"
-                    }
+                    "example": { "version": "2.1", "category": "product" }
                   }
                 },
                 "required": ["file", "name", "type"]
@@ -1003,9 +928,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/QueryDocumentsDto"
-              }
+              "schema": { "$ref": "#/components/schemas/QueryDocumentsDto" }
             }
           }
         },
@@ -1020,9 +943,7 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid query parameters"
-          }
+          "400": { "description": "Invalid query parameters" }
         },
         "summary": "Query knowledge documents",
         "tags": ["Knowledge Documents"]
@@ -1037,9 +958,7 @@
             "name": "botId",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -1070,9 +989,7 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -1086,9 +1003,7 @@
               }
             }
           },
-          "404": {
-            "description": "Knowledge document not found"
-          }
+          "404": { "description": "Knowledge document not found" }
         },
         "summary": "Get a knowledge document by ID",
         "tags": ["Knowledge Documents"]
@@ -1101,18 +1016,12 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Knowledge document deleted successfully"
-          },
-          "404": {
-            "description": "Knowledge document not found"
-          }
+          "200": { "description": "Knowledge document deleted successfully" },
+          "404": { "description": "Knowledge document not found" }
         },
         "summary": "Delete a knowledge document",
         "tags": ["Knowledge Documents"]
@@ -1192,9 +1101,76 @@
           }
         }
       },
-      "Object": {
+      "Object": { "type": "object", "properties": {} },
+      "CustomFieldQueryRequest": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "page": {
+            "type": "number",
+            "description": "Page number (1-based)",
+            "minimum": 1,
+            "default": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "description": "Number of items per page",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "example": 10
+          },
+          "relations": {
+            "description": "Relations to include in the response. Use dot notation for nested relations.",
+            "example": ["company", "company.accounts"],
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "select": {
+            "description": "Fields to select in the response",
+            "example": ["id", "email", "firstName", "lastName"],
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "sort": {
+            "description": "Sort configuration. Can be a single field or multiple fields.",
+            "example": [{ "field": "createdAt", "order": "DESC" }],
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/SortField" }
+          },
+          "filters": {
+            "type": "object",
+            "description": "Filter conditions as JSON object",
+            "example": { "company.id": "123e4567-e89b-12d3-a456-426614174000" }
+          },
+          "customFieldFilters": {
+            "type": "object",
+            "description": "Filter by custom field values using JSON path queries",
+            "example": {
+              "customFields.status": "active",
+              "customFields.priority": { "$in": ["high", "medium"] },
+              "customFields.tags": { "$contains": "urgent" },
+              "customFields.createdDate": { "$gte": "2024-01-01" },
+              "customFields.score": { "$gt": 50 },
+              "customFields.isActive": { "$exists": true }
+            }
+          },
+          "customFieldSearch": {
+            "type": "string",
+            "description": "Search text within custom field values",
+            "example": "urgent task"
+          },
+          "customFieldSort": {
+            "type": "string",
+            "description": "Sort by custom field (use customFields.fieldName format)",
+            "example": "customFields.priority"
+          },
+          "customFieldGroupBy": {
+            "type": "string",
+            "description": "Group by custom field (use customFields.fieldName format)",
+            "example": "customFields.status"
+          }
+        }
       },
       "UpdateConversationDto": {
         "type": "object",
@@ -1218,10 +1194,7 @@
             "type": "string",
             "description": "The ID of the conversation to send the message to"
           },
-          "message": {
-            "type": "string",
-            "description": "The message to send"
-          },
+          "message": { "type": "string", "description": "The message to send" },
           "type": {
             "type": "string",
             "description": "The type of the message",
@@ -1275,9 +1248,7 @@
             "description": "The inboxes IDs of the bot",
             "example": ["123e4567-e89b-12d3-a456-426614174000"],
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           }
         },
         "required": [
@@ -1502,10 +1473,7 @@
           "metadata": {
             "type": "object",
             "description": "Additional metadata for this chunk",
-            "example": {
-              "page": 3,
-              "section": "Payment Configuration"
-            },
+            "example": { "page": 3, "section": "Payment Configuration" },
             "nullable": true
           },
           "createdAt": {
