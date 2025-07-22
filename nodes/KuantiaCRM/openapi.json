@@ -617,6 +617,506 @@
         "summary": "Delete a bot",
         "tags": ["Bot"]
       }
+    },
+    "/api/contacts/{id}": {
+      "get": {
+        "operationId": "ContactController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get a contact by ID",
+        "tags": ["Contacts"]
+      },
+      "patch": {
+        "operationId": "ContactController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrCreateContactDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Update a contact",
+        "tags": ["Contacts"]
+      },
+      "delete": {
+        "operationId": "ContactController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Delete a contact and its conversations",
+        "tags": ["Contacts"]
+      }
+    },
+    "/api/contacts": {
+      "get": {
+        "operationId": "ContactController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (1-based)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "relations",
+            "required": false,
+            "in": "query",
+            "description": "Relations to include in the response. Use dot notation for nested relations.",
+            "schema": {
+              "example": ["company", "company.accounts"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "select",
+            "required": false,
+            "in": "query",
+            "description": "Fields to select in the response",
+            "schema": {
+              "example": ["id", "email", "firstName", "lastName"],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort configuration. Can be a single field or multiple fields.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SortField"
+              }
+            }
+          },
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Filter conditions as JSON object",
+            "schema": {
+              "$ref": "#/components/schemas/Object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all contacts",
+        "tags": ["Contacts"]
+      },
+      "post": {
+        "operationId": "ContactController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrCreateContactDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Create a new contact",
+        "tags": ["Contacts"]
+      }
+    },
+    "/api/custom-field-definitions": {
+      "get": {
+        "operationId": "CustomFieldDefinitionController_findAll",
+        "parameters": [
+          {
+            "name": "includeHidden",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all custom field definitions for account",
+        "tags": ["Custom Field Definitions"]
+      },
+      "post": {
+        "operationId": "CustomFieldDefinitionController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Create a new custom field definition",
+        "tags": ["Custom Field Definitions"]
+      }
+    },
+    "/api/custom-field-definitions/{id}": {
+      "get": {
+        "operationId": "CustomFieldDefinitionController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get a custom field definition by ID",
+        "tags": ["Custom Field Definitions"]
+      },
+      "put": {
+        "operationId": "CustomFieldDefinitionController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Update a custom field definition",
+        "tags": ["Custom Field Definitions"]
+      },
+      "delete": {
+        "operationId": "CustomFieldDefinitionController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Delete a custom field definition",
+        "tags": ["Custom Field Definitions"]
+      }
+    },
+    "/api/custom-field-definitions/scope/{scope}": {
+      "get": {
+        "operationId": "CustomFieldDefinitionController_findByScope",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get custom field definitions by scope",
+        "tags": ["Custom Field Definitions"]
+      }
+    },
+    "/api/knowledge-documents": {
+      "post": {
+        "description": "Upload and process a document to create a new knowledge document with vector embeddings",
+        "operationId": "KnowledgeDocumentController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Knowledge document data with file upload",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The document file to upload (PDF only, max 10MB)"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the knowledge document",
+                    "example": "Product Manual v2.1"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the knowledge document",
+                    "example": "Comprehensive product manual covering all features"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["pdf"],
+                    "description": "Type of the document",
+                    "example": "pdf"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "description": "Additional metadata for the document",
+                    "example": {
+                      "version": "2.1",
+                      "category": "product"
+                    }
+                  }
+                },
+                "required": ["file", "name", "type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Knowledge document created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeDocumentResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid file type or missing required fields"
+          }
+        },
+        "summary": "Create a new knowledge document",
+        "tags": ["Knowledge Documents"]
+      },
+      "get": {
+        "description": "Retrieve all knowledge documents belonging to the current account",
+        "operationId": "KnowledgeDocumentController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Knowledge documents retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KnowledgeDocumentResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all knowledge documents for the account",
+        "tags": ["Knowledge Documents"]
+      }
+    },
+    "/api/knowledge-documents/query": {
+      "post": {
+        "description": "Search for relevant document chunks using vector similarity search",
+        "operationId": "KnowledgeDocumentController_query",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryDocumentsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Query results returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryDocumentsResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query parameters"
+          }
+        },
+        "summary": "Query knowledge documents",
+        "tags": ["Knowledge Documents"]
+      }
+    },
+    "/api/knowledge-documents/bot/{botId}": {
+      "get": {
+        "description": "Retrieve all knowledge documents associated with a specific bot",
+        "operationId": "KnowledgeDocumentController_findByBotId",
+        "parameters": [
+          {
+            "name": "botId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Knowledge documents retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KnowledgeDocumentResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get knowledge documents for a specific bot",
+        "tags": ["Knowledge Documents"]
+      }
+    },
+    "/api/knowledge-documents/{id}": {
+      "get": {
+        "description": "Retrieve a specific knowledge document by its unique identifier",
+        "operationId": "KnowledgeDocumentController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Knowledge document retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeDocumentResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Knowledge document not found"
+          }
+        },
+        "summary": "Get a knowledge document by ID",
+        "tags": ["Knowledge Documents"]
+      },
+      "delete": {
+        "description": "Delete a knowledge document and all its associated chunks",
+        "operationId": "KnowledgeDocumentController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Knowledge document deleted successfully"
+          },
+          "404": {
+            "description": "Knowledge document not found"
+          }
+        },
+        "summary": "Delete a knowledge document",
+        "tags": ["Knowledge Documents"]
+      }
     }
   },
   "info": {
@@ -787,6 +1287,275 @@
           "webhookUrl",
           "inboxesIds"
         ]
+      },
+      "UpdateOrCreateContactDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Contact ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "name": {
+            "type": "string",
+            "description": "Contact name",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact email address",
+            "example": "john.doe@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact phone number",
+            "example": "+1234567890"
+          },
+          "profilePictureUrl": {
+            "type": "string",
+            "description": "Profile picture URL",
+            "example": "https://example.com/profile.jpg"
+          },
+          "customFields": {
+            "type": "object",
+            "description": "Custom fields for the contact",
+            "example": {
+              "customer_type": "enterprise",
+              "lead_source": "website",
+              "deal_value": 75000,
+              "tags": ["vip", "priority"],
+              "last_contact_date": "2024-01-15T10:30:00Z"
+            }
+          }
+        },
+        "required": ["id"]
+      },
+      "KnowledgeDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the knowledge document",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the knowledge document",
+            "example": "Product Manual v2.1"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the knowledge document",
+            "example": "Comprehensive product manual covering all features and troubleshooting",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the document",
+            "enum": ["pdf"],
+            "example": "pdf"
+          },
+          "filePath": {
+            "type": "string",
+            "description": "File path where the document is stored",
+            "example": "/uploads/documents/product-manual-v2.1.pdf"
+          },
+          "originalFilename": {
+            "type": "string",
+            "description": "Original filename when uploaded",
+            "example": "product-manual-v2.1.pdf"
+          },
+          "fileSize": {
+            "type": "number",
+            "description": "File size in bytes",
+            "example": 2048576
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "MIME type of the file",
+            "example": "application/pdf"
+          },
+          "chunkCount": {
+            "type": "number",
+            "description": "Number of chunks this document was split into",
+            "example": 15
+          },
+          "tokenCount": {
+            "type": "number",
+            "description": "Total number of tokens in the document",
+            "example": 2500
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the document",
+            "example": {
+              "version": "2.1",
+              "category": "product",
+              "tags": ["manual", "troubleshooting"]
+            },
+            "nullable": true
+          },
+          "accountId": {
+            "type": "string",
+            "description": "Account ID that owns this document",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation timestamp",
+            "example": "2024-01-15T10:30:00Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update timestamp",
+            "example": "2024-01-15T10:30:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "type",
+          "filePath",
+          "originalFilename",
+          "fileSize",
+          "mimeType",
+          "chunkCount",
+          "tokenCount",
+          "metadata",
+          "accountId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "QueryDocumentsDto": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Query string to search for in the knowledge documents",
+            "example": "How to configure the payment settings?",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "botId": {
+            "type": "string",
+            "description": "Bot ID to filter documents by",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "Account ID to filter documents by (optional)",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of results to return",
+            "example": 5,
+            "minimum": 1,
+            "maximum": 20,
+            "default": 5
+          }
+        },
+        "required": ["query", "botId"]
+      },
+      "KnowledgeDocumentChunkResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the chunk",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "documentId": {
+            "type": "string",
+            "description": "Document ID this chunk belongs to",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "chunkIndex": {
+            "type": "number",
+            "description": "Sequential index of this chunk within the document",
+            "example": 3
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content of this chunk",
+            "example": "This section covers the payment configuration settings..."
+          },
+          "tokenCount": {
+            "type": "number",
+            "description": "Number of tokens in this chunk",
+            "example": 150
+          },
+          "startPosition": {
+            "type": "number",
+            "description": "Start position of this chunk in the original document",
+            "example": 1250
+          },
+          "endPosition": {
+            "type": "number",
+            "description": "End position of this chunk in the original document",
+            "example": 1850
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for this chunk",
+            "example": {
+              "page": 3,
+              "section": "Payment Configuration"
+            },
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation timestamp",
+            "example": "2024-01-15T10:30:00Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update timestamp",
+            "example": "2024-01-15T10:30:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "documentId",
+          "chunkIndex",
+          "content",
+          "tokenCount",
+          "startPosition",
+          "endPosition",
+          "metadata",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "QueryDocumentsResponseDto": {
+        "type": "object",
+        "properties": {
+          "chunks": {
+            "description": "Array of matching document chunks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KnowledgeDocumentChunkResponseDto"
+            }
+          },
+          "totalCount": {
+            "type": "number",
+            "description": "Total number of chunks found",
+            "example": 5
+          },
+          "query": {
+            "type": "string",
+            "description": "The original query string",
+            "example": "How to configure the payment settings?"
+          }
+        },
+        "required": ["chunks", "totalCount", "query"]
       }
     }
   }
