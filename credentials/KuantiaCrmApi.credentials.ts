@@ -7,12 +7,12 @@ import {
 export class KuantiaCrmApi implements ICredentialType {
     name = 'kuantiaCrmApi';
     displayName = 'Kuantia CRM API';
-    documentationUrl = 'https://api.kuantia.co/api/swagger-json';
+    documentationUrl = 'https://api.kuantia.ai/api/swagger-json';
     properties: INodeProperties[] = [
         {
             displayName: 'Kuantia CRM API URL',
             name: 'url',
-            placeholder: "https://api.kuantia.co",
+            placeholder: "https://api.kuantia.ai",
             type: 'string',
             default: '',
             required: true,

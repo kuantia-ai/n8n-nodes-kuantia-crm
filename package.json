@@ -1,15 +1,15 @@
 {
   "name": "@kuantia-ai/n8n-nodes-kuantia-crm",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "n8n node to connect with Kuantia CRM",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "https://kuantia.co",
+  "homepage": "https://kuantia.ai",
   "author": {
     "name": "Carlos Berdugo",
-    "email": "carlos@kuantia.co"
+    "email": "carlos@kuantia.ai"
   },
   "repository": {
     "type": "git",

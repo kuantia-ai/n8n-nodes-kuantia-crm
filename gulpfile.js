@@ -15,7 +15,7 @@ function copyIcons() {
 	return src(credSource).pipe(dest(credDestination));
 }
 
-// Create a task to fetch the OpenAPI document from the API and save it to the dist folder, swagger json is located at https://api.kuantia.co/api/swagger-json
+// Create a task to fetch the OpenAPI document from the API and save it to the dist folder, swagger json is located at https://api.kuantia.ai/api/swagger-json
 function fetchOpenApiDocument() {
 	const openApiDocument = path.resolve('dist', 'openapi.json');
 	const openApiDocumentDestination = path.resolve('dist', 'openapi.json');

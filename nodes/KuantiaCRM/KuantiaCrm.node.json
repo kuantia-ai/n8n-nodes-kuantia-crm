@@ -6,12 +6,12 @@
 	"resources": {
 		"credentialDocumentation": [
 			{
-				"url": "https://api.kuantia.co/api/swagger-json"
+				"url": "https://api.kuantia.ai/api/swagger-json"
 			}
 		],
 		"primaryDocumentation": [
 			{
-				"url": "https://api.kuantia.co/api/swagger-json"
+				"url": "https://api.kuantia.ai/api/swagger-json"
 			}
 		]
 	}

@@ -6,7 +6,7 @@
 </p>
 
 Automate your
-[**Kuantia CRM**](https://www.kuantia.co/)
+[**Kuantia CRM**](https://www.kuantia.ai/)  
 workflows with
 [**n8n**](https://n8n.io/)
 !
@@ -17,9 +17,9 @@ workflows with
 
 - GitHub: [kuantia-ai/n8n-nodes-kuantia-crm](http://github.com/kuantia-ai/n8n-nodes-kuantia-crm)
 - npm: [@kuantia-ai/n8n-nodes-kuantia-crm](https://www.npmjs.com/package/@kuantia-ai/n8n-nodes-kuantia-crm)
-- Kuantia CRM API reference: [https://api.kuantia.co/api/swagger-json](https://api.kuantia.co/api/swagger-json)
+- Kuantia CRM API reference: [https://api.kuantia.ai/api/swagger-json](https://api.kuantia.ai/api/swagger-json)
 - 👉 Generated from
-  [Kuantia CRM OpenAPI](https://api.kuantia.co/api/swagger-json)
+  [Kuantia CRM OpenAPI](https://api.kuantia.ai/api/swagger-json)
   using
   [**kuantia-ai/n8n-openapi-node**](https://github.com/kuantia-ai/n8n-openapi-node)
 
@@ -54,7 +54,7 @@ Install [the community node package in your n8n instance](https://docs.n8n.io/in
 There are few types of credentials (accounts) that you can use to authenticate with Kuantia CRM API.
 
 For different Kuantia CRM API Endpoints you'll need different credentials - please
-refer to the [Kuantia CRM API documentation](https://api.kuantia.co/api/swagger-json) for more information.
+refer to the [Kuantia CRM API documentation](https://api.kuantia.ai/api/swagger-json) for more information.
 
 We suggest you create **Kuantia CRM API** credentials in **n8n** for each type of account and name it `Kuantia CRM - {TYPE}` 
 for better clarity.
@@ -81,7 +81,7 @@ This token can be obtained by visiting the inbox settings page.
 
 # Development
 The node is generated from the
-[Kuantia CRM OpenAPI](https://api.kuantia.co/api/swagger-json)
+[Kuantia CRM OpenAPI](https://api.kuantia.ai/api/swagger-json)
 using
 [**kuantia-ai/n8n-openapi-node**](https://github.com/kuantia-ai/n8n-openapi-node).
 
